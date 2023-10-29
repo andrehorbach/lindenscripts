@@ -11,6 +11,7 @@ list subMenu_02_Buttons = ["action 02a", "action 02b", "Close", "-Main-"];
 integer dialogChannel;
 integer dialogHandle;
 integer gListener;
+string nameText;
 integer gChan = 35;
 
 open_menu(key inputKey, string inputString, list inputList)
@@ -53,12 +54,9 @@ default
             open_menu(id, mainMenuDialog, mainMenuButtons);
 
         else if(message == "Set Text")
-
         {
-          llListen(gChan,"",llGetOwner(),"");
-          llTextBox(llGetOwner(),"Type the text you want to appear (7 characters max):",gChan);
+          state state_b;
         }
-
         else if(message == "sub 02")
             open_menu(id, subMenu_02_Dialog, subMenu_02_Buttons);
 
@@ -91,3 +89,19 @@ default
         close_menu();
     }
 }
+
+    
+state state_b
+    {   
+        state_entry()
+            { 
+               llListen(gChan,"",llGetOwner(),"");
+               llTextBox(llGetOwner(),"Type your text (7 characters max):",gChan);
+            } 
+        listen(integer chan, string name, key ID, string text)
+            {   
+                nameText = text;
+                // do something with the responses.
+                llSay(0,"nameText = " + nameText); // for demonstration.
+            }
+    }
